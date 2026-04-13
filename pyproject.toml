@@ -1,0 +1,334 @@
+
+[project]
+name = "django-react-boilerplate"
+version = "0.1.0"
+description = "A robust, production-ready boilerplate designed to jumpstart generic web applications. This project bridges the gap between a powerful Django REST Framework backend and a high-speed Vite-powered React frontend."
+authors = [
+    {name = "git-evinci",email = "gustavo.adolfo@evinci.com.br"}
+]
+readme = "docs/README.md"
+
+license = "MIT License"
+
+requires-python = ">=3.12,<4.0"
+dependencies = [
+    "chardet (>=7.4.3,<8.0.0)",
+    "django (>=6.0.4,<7.0.0)",
+    "django-allauth (>=65.16.0,<66.0.0)",
+    "django-celery-beat (>=2.9.0,<3.0.0)",
+    "django-constance (>=4.3.5,<5.0.0)",
+    "django-constance (>=4.3.5,<5.0.0)",
+    "django-crispy-forms (>=2.6,<3.0)",
+    "django-guardian (>=3.3.1,<4.0.0)",
+    "django-import-export (>=4.4.0,<5.0.0)",
+    "django-location-field (>=2.7.3,<3.0.0)",
+    "django-modeltranslation (>=0.20.2,<0.21.0)",
+    "django-money (>=3.6.0,<4.0.0)",
+    "django-redis (>=6.0.0,<7.0.0)",
+    "django-simple-history (>=3.11.0,<4.0.0)",
+    "django-unfold @ git+https://github.com/unfoldadmin/django-unfold.git",
+    "django-versatileimagefield (>=3.1,<4.0)",
+    "django-vite (>=3.1.0,<4.0.0)",
+    "gunicorn (>=25.3.0,<26.0.0)",
+    "sentry-sdk (>=2.58.0,<3.0.0)",
+    "whitenoise (>=6.12.0,<7.0.0)"
+]
+
+[dependency-groups]
+dev = [
+    "pytest (>=9.0.3,<10.0.0)",
+    "dotenv (>=0.9.9,<0.10.0)",
+    "django-debug-toolbar (>=6.3.0,<7.0.0)",
+    "black (>=26.3.1,<27.0.0)",
+    "mypy (>=1.20.1,<2.0.0)",
+    "flake8 (>=7.3.0,<8.0.0)",
+    "ruff (>=0.15.10,<0.16.0)",
+    "pytest-cov (>=7.1.0,<8.0.0)",
+    "django-extensions (>=4.1,<5.0)",
+    "django-stubs-ext (>=6.0.2,<7.0.0)",
+    "django-types (>=0.23.0,<0.24.0)",
+    "pygments (>=2.20.0,<3.0.0)",
+    "pillow (>=12.2.0,<13.0.0)"
+]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+# Disables package installation mode so Poetry works solely as a 
+# dependency manager for your Django web application.
+package-mode = false
+
+[tool.ruff]
+fix = true
+line-length = 120
+
+target-version = "py312"  # Python version for compatibility
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "management",
+    "site-packages",
+    "venv",
+    "**/migrations"
+]
+
+
+[tool.ruff.format]
+quote-style = "double"
+#indent-style = "tab"
+#skip-magic-trailing-comma = false
+line-ending = "auto"
+docstring-code-format = true
+docstring-code-line-length = "dynamic"
+
+[tool.ruff.lint]
+
+select = [
+    # Annotation & typing rules
+    "ANN",
+    # "ANN001", # Missing type annotation for function argument {name}
+    # "ANN002", # Missing type annotation for *{name}
+    # "ANN003", # Missing type annotation for **{name}
+    # "ANN201", # Missing return type annotation for public function {name}	
+    # "ANN202", # Missing return type annotation for private function {name}
+    # "ANN204", # Missing return type annotation for special method {name}
+    # "ANN205", # Missing return type annotation for staticmethod {name}
+    # "ANN206", # Missing return type annotation for classmethod {name}
+    # "ANN401", # Dynamically typed expressions (typing.Any) are disallowed in {name}
+    "ARG",  # Argument/parameter related issues
+    
+    # Bug prevention
+    "B",    # Builtin misuse and potential bugs
+    
+    # Code complexity & style
+    "C4",   # Comprehensions improvements
+    "C90",  # McCabe cyclomatic complexity
+    
+    # Documentation
+    "D",    # Docstring conventions
+    
+    # Django-specific rules
+    "DJ",   # Django best practices
+    
+    # Datetime & timezone safety
+    "DTZ",  # Requires timezone-aware datetimes
+    
+    # Error handling
+    "E",    # Syntax errors, indentation, etc.
+    "EM",   # Exception handling improvements
+    
+    # Formatting & style (originally from pyflakes)
+    "F",    # Pyflakes rules
+    
+    # Global variables
+    "G",    # Global statement misuse
+    
+    # Import sorting
+    "I",    # Unsorted/ungrouped imports
+    
+    # Implicit string concatenation
+    "ISC",  # Detects potentially dangerous implicit string concat
+    
+    # Logging
+    "LOG",  # Logging format issues
+    
+    # Naming conventions
+    "N",    # PEP 8 naming violations
+    
+    # Flake8-pie rules
+    "PIE",  # Python improvement recommendations
+    
+    # Python typing
+    "PT",   # Type-related checks
+    
+    # Path handling
+    "PTH",  # os.path vs Pathlib recommendations
+    
+    # Return statements
+    "RET",  # Return consistency checks
+    
+    # Ruff-specific rules
+    "RUF",  # Additional Ruff-specific checks
+    
+    # Quote consistency
+    "Q",    # Single vs double quotes
+    
+    # Simplification
+    "SIM",  # Code that can be simplified
+    
+    # TensorFlow-specific (if used)
+    "T10",  # TensorFlow best practices
+    
+    # Try-except handling
+    "TRY",  # Try-except improvements
+    
+    # Unicode & string handling
+    "UP",   # Unicode normalization checks
+]
+ignore = [
+    "ISC001",  # Implicit string concatenation
+    "D203",    # 1 blank line required before class docstring
+    "D213",    # Multi-line docstring summary should start at the second line
+    "TRY003",  # Avoid specifying long messages outside the exception class
+    "EM101",   # Exception message should be a string literal
+    "ARG005",   # Unused lambda argument
+    "ARG002",
+    "ANN401",
+    "E501", # line too long, handled by black
+]
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["D", "ANN"]
+"__init__.py" = ["D"]
+"backend/core/*/__init__.py" = ["F403"]
+
+# Optional: Add these configurations for stricter checks
+[tool.ruff.lint.flake8-annotations]
+allow-star-arg-any = true  # Allow `*args: Any`, `**kwargs: Any`
+
+[tool.ruff.lint.flake8-unused-arguments]
+ignore-variadic-names = true  # Ignore unused `*args`, `**kwargs`
+
+[tool.ruff.lint.flake8-pytest-style]
+mark-parentheses = false
+
+[tool.ruff.lint.isort]
+section-order = [
+    "future",
+    "standard-library",
+    "third-party",
+    "django",
+    "first-party",
+    "local",
+    "local-folder",
+]
+[tool.ruff.lint.isort.sections]
+"django" = ["django", "wagtail"]
+"local" = ["core", "pages"]
+
+
+[tool.pylint."MESSAGES CONTROL"]
+max-line-length = 120
+disable = ["fixme", "too-many-arguments", "arguments-differ", "too-many-ancestors", "broad-exception-caught", "pointless-string-statement", "useless-parent-delegation"]
+load-plugins = ["pylint_per_file_ignores", "pylint_django"]
+per-file-ignores = """
+/tests/:missing-function-docstring,assignment-from-no-return,not-context-manager,django-not-configured,imported-auth-user,missing-module-docstring
+/migrations/:invalid-name,missing-class-docstring,wrong-import-order
+models.py:too-many-ancestors
+manage.py:import-outside-toplevel
+"""
+django-settings-module = "core.settings"
+init-hook = 'import sys; sys.path.append("./app")'
+ignore-paths = [".*[/\\\\]migrations[/\\\\]"]
+
+[tool.pylint.MASTER]
+# Adds backend to path for linting/running
+init-hook = 'import sys; os.path.append("./backend")'
+
+[tool.mypy]
+plugins = ["mypy_django_plugin.main"]
+mypy_path = "backend"  # Tells MyPy to look inside backend/ for core
+exclude = ["^.*/migrations/", "^.*/tests/", "^.*/management/", "^.*/scripts/", "tests/"]
+disallow_untyped_defs = false
+check_untyped_defs = true
+
+# Correct plugin configuration (single table)
+[tool.mypy-plugins.django-stubs]
+django_settings_module = "core.settings"
+
+# General django-stubs configuration
+[tool.django-stubs]
+django_settings_module = "core.settings"
+ignore_missing_model_attributes = true
+
+# Overrides (array of tables)
+[[tool.mypy.overrides]]
+module = "tablib.*"
+ignore_missing_imports = true
+
+# Overrides (array of tables)
+[[tool.mypy.overrides]]
+module = "allauth.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "user_agents"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "simple_history.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "unfold.*"
+ignore_missing_imports = true
+
+[tool.poe.tasks.test]
+help = "Pytest with coverage."
+# Added --cov=backend to specify exactly what to measure
+cmd = "pytest backend --showlocals --tb=auto -ra --cov=backend --cov-branch --cov-report=term-missing"
+
+[tool.poe.tasks.mypy]
+# Explicitly check the backend directory
+cmd = "mypy --install-types --check-untyped-defs backend"
+
+[tool.poe.tasks.pylint]
+# Updated paths to reflect your backend/ folder structure
+cmd = "pylint tests backend/core"
+
+[tool.poe.tasks.ruff]
+# Checking the whole project but focusing ruff's engine on the source
+cmd = "ruff check backend scripts tests"
+
+[tool.poe.tasks.check]
+sequence = ["mypy", "pylint", "ruff"]
+
+[tool.poe.tasks.format]
+cmd = "ruff format backend scripts tests"
+
+[tool.poe.tasks.dev]
+help = "Run development server."
+# Ensure path to manage.py is correct from the root
+cmd = "python ./backend/manage.py runserver 127.0.0.1:8000"
+
+[tool.poe.tasks.makemigrations]
+help = "Generate new migrations."
+cmd = "python ./backend/manage.py makemigrations"
+
+[tool.poe.tasks.migrate]
+help = "Migrate existing migrations."
+cmd = "python ./backend/manage.py migrate"
+
+[tool.poe.tasks.manage]
+cmd = "python ./backend/manage.py"
+
+[tool.poe.tasks.shell]
+help = "Run Django shell_plus"
+cmd = "python ./backend/manage.py shell_plus"

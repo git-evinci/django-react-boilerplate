@@ -1,0 +1,12 @@
+        <div x-show="loaded" x-cloak x-transition:leave="transition-opacity duration-150" x-transition:leave-start="opacity-100"
+          x-transition:leave-end="opacity-0"
+          x-init="window.addEventListener('DOMContentLoaded', () => {setTimeout(() => loaded = false, 200)})"
+          class="fixed left-0 top-0 z-999999 flex h-screen w-screen items-center justify-center bg-acv_graphite-950">
+          <svg class="h-16 w-16 animate-spin" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <!-- Snake body (circular path) -->
+            <path d="M32,4 a28,28 0 0 1 0,56 a28,28 0 0 1 0,-56" fill="none" stroke="currentColor" stroke-width="3"
+              stroke-linecap="round" class="text-acv_orange-500" />
+            <!-- Diamond (losange) head - positioned outside the circle -->
+            <path d="M32,0 l6,6 l-6,6 l-6,-6 z" fill="currentColor" class="text-acv_orange-500" />
+          </svg>
+        </div>
