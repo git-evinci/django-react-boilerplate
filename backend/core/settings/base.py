@@ -291,16 +291,24 @@ LANGUAGES = (
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 # The URL used to access static files
 STATIC_URL = "/static/"
-
-# Where Django LOOKS for static files in development
-STATICFILES_DIRS = [
-    BASE_DIR / "static",       # Your project-wide static files
-    BASE_DIR / "staticfiles",   # Any extra static assets
-]
-
 # The destination for 'collectstatic' (Production only)
 # This should be a separate folder that is NOT in STATICFILES_DIRS
 STATIC_ROOT = BASE_DIR.parent / "collected_static"
+
+# 1. Define the paths
+STATIC_DIR = BASE_DIR / "static"
+EXTRA_STATIC_DIR = BASE_DIR / "staticfiles"
+
+# 2. Automatically create them if they are missing
+STATIC_DIR.mkdir(parents=True, exist_ok=True)
+EXTRA_STATIC_DIR.mkdir(parents=True, exist_ok=True)
+
+# 3. Assign them
+STATICFILES_DIRS = [
+    STATIC_DIR,
+    EXTRA_STATIC_DIR,
+]
+
 
 # Vite Integration
 VITE_DIST_DIR = BASE_DIR.parent / "frontend" / "dist"
