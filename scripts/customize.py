@@ -14,7 +14,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 PYPROJECT_PATH = BASE_DIR / "pyproject.toml"
 LICENSE_PATH = BASE_DIR / "LICENSE"
-README_PATH = BASE_DIR / "README.md"
+README_PATH = BASE_DIR / "docs" / "README.md"
 ENV_EXAMPLE_PATH = BASE_DIR / ".env.example"
 ENV_PATH = BASE_DIR / ".env"
 

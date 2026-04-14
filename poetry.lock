@@ -600,7 +600,7 @@ version = "4.1"
 description = "Extensions for Django"
 optional = false
 python-versions = ">=3.9"
-groups = ["dev"]
+groups = ["main", "dev"]
 files = [
     {file = "django_extensions-4.1-py3-none-any.whl", hash = "sha256:0699a7af28f2523bf8db309a80278519362cd4b6e1fd0a8cd4bf063e1e023336"},
     {file = "django_extensions-4.1.tar.gz", hash = "sha256:7b70a4d28e9b840f44694e3f7feb54f55d495f8b3fa6c5c0e5e12bcb2aa3cdeb"},
@@ -1552,7 +1552,7 @@ version = "1.2.2"
 description = "Read key-value pairs from a .env file and set them as environment variables"
 optional = false
 python-versions = ">=3.10"
-groups = ["dev"]
+groups = ["main", "dev"]
 files = [
     {file = "python_dotenv-1.2.2-py3-none-any.whl", hash = "sha256:1d8214789a24de455a8b8bd8ae6fe3c6b69a5e3d64aa8a8e5d68e694bbcb285a"},
     {file = "python_dotenv-1.2.2.tar.gz", hash = "sha256:2c371a91fbd7ba082c2c1dc1f8bf89ca22564a087c2c287cd9b662adde799cf3"},
@@ -2141,4 +2141,4 @@ brotli = ["brotli"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12,<4.0"
-content-hash = "1a9baa916eb2f2d54b1de8989c33b82828c2f652ceca02f388fc567cfc2709d1"
+content-hash = "7ec252e154bcad357689848c3394a6a2e5f1f688428dcf219ea6d825a524c8a7"
