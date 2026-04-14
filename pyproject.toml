@@ -30,6 +30,8 @@ dependencies = [
     "django-versatileimagefield (>=3.1,<4.0)",
     "django-vite (>=3.1.0,<4.0.0)",
     "djangorestframework (>=3.17.1,<4.0.0)",
+    "drf-spectacular (>=0.29.0,<0.30.0)",
+    "drf-spectacular-sidecar (>=2026.4.1,<2027.0.0)",
     "gunicorn (>=25.3.0,<26.0.0)",
     "sentry-sdk (>=2.58.0,<3.0.0)",
     "whitenoise (>=6.12.0,<7.0.0)"
@@ -333,3 +335,7 @@ cmd = "python ./backend/manage.py"
 [tool.poe.tasks.shell]
 help = "Run Django shell_plus"
 cmd = "python ./backend/manage.py shell_plus"
+
+[tool.poe.tasks.schema]
+help = "Export OpenAPI schema to file."
+cmd = "python ./backend/manage.py spectacular --file schema.yml"

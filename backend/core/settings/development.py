@@ -4,7 +4,6 @@
 Inherits from the base settings and extends or overrides specific settings
 to support development, such as enabling the debug toolbar.
 """
-
 from .base import *  # noqa: F403
 
 # Enable debugging
@@ -16,6 +15,8 @@ ALLOWED_HOSTS += [  # noqa: F405
     "192.168.15.12",
     "testserver",
 ]
+# Silence the specific django_vite manifest warning
+SILENCED_SYSTEM_CHECKS = ["django_vite.W001"]
 
 # Additional apps and middleware for development
 # INSTALLED_APPS += [

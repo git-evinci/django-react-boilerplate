@@ -16,6 +16,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 
 """
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
 from rest_framework.routers import DefaultRouter
 
 from django.conf import settings
@@ -40,6 +45,22 @@ urlpatterns = [
     path("admin/", core_admin_site.urls),
     path("api/", include(router.urls)),
     path("api-auth/", include("rest_framework.urls")), # For browsable API login
+    # Schema extraction
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    
+    # Optional UI: Swagger
+    path(
+        "api/docs/", 
+        SpectacularSwaggerView.as_view(url_name="schema"), 
+        name="swagger-ui"
+    ),
+    
+    # Optional UI: Redoc
+    path(
+        "api/redoc/", 
+        SpectacularRedocView.as_view(url_name="schema"), 
+        name="redoc"
+    ),
 ]
 
 # Debug toolbar (development only)

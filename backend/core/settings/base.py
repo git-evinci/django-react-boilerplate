@@ -33,6 +33,7 @@ ROOT_DIR = Path(__file__).resolve().parent.parent.parent.parent
 # print(ROOT_DIR)
 # Load environment variables from .env file
 load_dotenv(ROOT_DIR / ".env")  # Explicitly specify the path to the .env file
+FRONTEND_DIR = str(BASE_DIR.parent / "frontend" / "dist")
 
 SECRET_KEY = os.getenv("SECRET_KEY", get_random_secret_key())
 DEBUG = os.getenv("DEBUG", "False").lower() in ("true", "1", "t")
@@ -49,7 +50,9 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 10_000
 ######################################################################
 # Domains
 ######################################################################
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
+env_hosts = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1")
+ALLOWED_HOSTS = [host.strip() for host in env_hosts.split(",")]
+
 CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "http://localhost:8000").split(
     ","
 )
@@ -94,6 +97,8 @@ INSTALLED_APPS = [
     "django_vite",
     "rest_framework",
     "corsheaders",
+    "drf_spectacular",
+    "drf_spectacular_sidecar",  
     "core",
 ]
 
@@ -104,6 +109,7 @@ if UNFOLD_STUDIO == "1":
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # Must be directly below SecurityMiddleware
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware", # Place this as high as possible
     "django.middleware.common.CommonMiddleware",
@@ -126,6 +132,7 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.BasicAuthentication",
     ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 # CORS Configuration (Adjust for your dev environment)
@@ -133,6 +140,16 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
 ]
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Django React Boilerplate API",
+    "DESCRIPTION": "Comprehensive API documentation for the Modern Stack Boilerplate",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    # Optional: Change the UI theme
+    "SWAGGER_UI_DIST": "SIDECAR",  # Requires 'drf-spectacular-sidecar' if you don't want to use CDN
+    "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
+}
 
 ######################################################################
 # Sessions
@@ -267,18 +284,25 @@ LANGUAGES = (
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
-
+# The URL used to access static files
 STATIC_URL = "/static/"
 
-STATIC_ROOT = BASE_DIR / "static"
-
-
+# Where Django LOOKS for static files in development
 STATICFILES_DIRS = [
-    BASE_DIR / "staticfiles",
+    BASE_DIR / "static",       # Your project-wide static files
+    BASE_DIR / "staticfiles",   # Any extra static assets
 ]
-# Only add Vite dist in production
-if not DEBUG:
-    STATICFILES_DIRS.append(("vite", ROOT_DIR / "frontend" / "dist"))
+
+# The destination for 'collectstatic' (Production only)
+# This should be a separate folder that is NOT in STATICFILES_DIRS
+STATIC_ROOT = BASE_DIR.parent / "collected_static"
+
+# Vite Integration
+VITE_DIST_DIR = BASE_DIR.parent / "frontend" / "dist"
+
+if not DEBUG and VITE_DIST_DIR.exists():
+    # We mount the vite build directory so Whitenoise/Django can serve the assets
+    STATICFILES_DIRS.append(("vite", VITE_DIST_DIR))
 
 MEDIA_ROOT = BASE_DIR / "media"
 MEDIA_URL = "/media/"
