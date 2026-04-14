@@ -182,11 +182,16 @@ TEMPLATES = [
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# Database
+# Define the database directory path
+DB_DIR = BASE_DIR.parent / "db"
+
+# 🌟 AUTOMATICALLY CREATE THE DIRECTORY IF IT DOESN'T EXIST 🌟
+DB_DIR.mkdir(parents=True, exist_ok=True)
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": ROOT_DIR / "db" / "db.sqlite3",
+        "NAME": DB_DIR / "db.sqlite3",
     }
 }
 
