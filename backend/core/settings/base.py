@@ -92,6 +92,8 @@ INSTALLED_APPS = [
     "djmoney",
     "versatileimagefield",
     "django_vite",
+    "rest_framework",
+    "corsheaders",
     "core",
 ]
 
@@ -103,6 +105,7 @@ if UNFOLD_STUDIO == "1":
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware", # Place this as high as possible
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -112,6 +115,23 @@ MIDDLEWARE = [
     "simple_history.middleware.HistoryRequestMiddleware",
     #"debug_toolbar.middleware.DebugToolbarMiddleware",
     "core.middleware.ReadonlyExceptionHandlerMiddleware",
+]
+
+# DRF Configuration
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.BasicAuthentication",
+    ],
+}
+
+# CORS Configuration (Adjust for your dev environment)
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
 ]
 
 ######################################################################

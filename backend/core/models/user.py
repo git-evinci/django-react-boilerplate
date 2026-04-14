@@ -14,7 +14,6 @@ from django.db import models
 from django.db.models.manager import Manager
 from django.utils.translation import gettext_lazy as _
 
-from core.encoders import PrettyJSONEncoder
 from core.models.base import AuditedModel, user_picture_upload_path
 
 # Exported symbols

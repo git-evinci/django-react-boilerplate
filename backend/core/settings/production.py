@@ -1,5 +1,5 @@
 # core/settings/production.py
-# ruff: noqa: F403, F405
+# ruff: noqa: F403
 """Production-specific settings for the Django project.
 
 Inherits from the base settings and extends or overrides specific settings.

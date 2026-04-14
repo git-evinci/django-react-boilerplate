@@ -16,13 +16,19 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 
 """
+from rest_framework.routers import DefaultRouter
+
 from django.conf import settings
 from django.conf.urls.static import static
 
 #from django.contrib import admin
 from django.urls import include, path
 
+from core.api.views import UserViewSet
 from core.sites import core_admin_site
+
+router = DefaultRouter()
+router.register(r"users", UserViewSet)
 
 handler404 = "core.views.custom_404"
 handler500 = "core.views.custom_500"
@@ -32,6 +38,8 @@ urlpatterns = [
     path("i18n/", include("django.conf.urls.i18n")),
     path("accounts/", include("allauth.urls")),
     path("admin/", core_admin_site.urls),
+    path("api/", include(router.urls)),
+    path("api-auth/", include("rest_framework.urls")), # For browsable API login
 ]
 
 # Debug toolbar (development only)

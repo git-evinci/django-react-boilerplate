@@ -6,8 +6,11 @@ Includes custom functions for formatting fields.
 
 import random
 from functools import lru_cache
-from django.utils.timezone import now, timedelta
+
 from unfold.components import BaseComponent, register_component
+
+from django.utils.timezone import now, timedelta
+
 
 @lru_cache
 def tracker_random_data():
