@@ -1,0 +1,79 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  backend-lint-and-test:
+    name: Backend (Django & Code Quality)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install pre-commit standalone
+        # We install this globally so the action runs faster and caches better
+        run: pip install pre-commit
+
+      - name: Set up Pre-commit Cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
+
+      - name: Run Pre-commit Hooks (Ruff & Prettier)
+        # This runs the hooks we set up in Item 4!
+        run: pre-commit run --all-files
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: 2.3.1
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+
+      - name: Set up Poetry Cache
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('poetry.lock') }}
+
+      - name: Install Backend Dependencies
+        run: poetry install --no-interaction
+
+      - name: Run Pytest
+        run: poetry run pytest
+
+  frontend-build:
+    name: Frontend (Vite Build Check)
+    runs-on: ubuntu-latest
+    # Tell this job to run all its steps inside the frontend folder
+    defaults:
+      run:
+        working-directory: ./frontend
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: "./frontend/package-lock.json"
+
+      - name: Install Frontend Dependencies
+        # npm ci is like npm install, but strictly follows the lockfile (faster & safer for CI)
+        run: npm ci
+
+      - name: Verify Frontend Build
+        # This ensures Vite and Tailwind can compile the assets without throwing errors
+        run: npm run build
