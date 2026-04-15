@@ -2,14 +2,18 @@ name: CI Pipeline
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
   pull_request:
-    branches: ["main"]
+    branches: [ "main" ]
+
+# Silence the GitHub Actions deprecation warning
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
 
 jobs:
   backend-lint-and-test:
     name: Backend (Django & Code Quality)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -20,7 +24,6 @@ jobs:
           python-version: "3.12"
 
       - name: Install pre-commit standalone
-        # We install this globally so the action runs faster and caches better
         run: pip install pre-commit
 
       - name: Set up Pre-commit Cache
@@ -30,7 +33,6 @@ jobs:
           key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
 
       - name: Run Pre-commit Hooks (Ruff & Prettier)
-        # This runs the hooks we set up in Item 4!
         run: pre-commit run --all-files
 
       - name: Install Poetry
@@ -54,8 +56,7 @@ jobs:
 
   frontend-build:
     name: Frontend (Vite Build Check)
-    runs-on: ubuntu-latest
-    # Tell this job to run all its steps inside the frontend folder
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: ./frontend
@@ -66,14 +67,12 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: "22" # Updated to match your local Node v22!
           cache: "npm"
           cache-dependency-path: "./frontend/package-lock.json"
 
       - name: Install Frontend Dependencies
-        # npm ci is like npm install, but strictly follows the lockfile (faster & safer for CI)
         run: npm ci
 
       - name: Verify Frontend Build
-        # This ensures Vite and Tailwind can compile the assets without throwing errors
         run: npm run build
