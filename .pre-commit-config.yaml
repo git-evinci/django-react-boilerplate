@@ -1,0 +1,32 @@
+# .pre-commit-config.yaml
+
+# Exclude auto-generated or heavy directories from standard checks
+exclude: ^(frontend/dist/|backend/db/|\.tox/|\.venv/|venv/|node_modules/)
+
+repos:
+  # 1. General Repository Hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-toml
+      - id: check-added-large-files
+
+  # 2. Python Linting & Formatting (Ruff)
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.10
+    hooks:
+      # Run the Ruff linter (with auto-fix enabled)
+      - id: ruff
+        args: [ --fix ]
+      # Run the Ruff formatter (Drop-in replacement for Black)
+      - id: ruff-format
+
+  # 3. Frontend Formatting (Prettier)
+  - repo: https://github.com/rbubley/mirrors-prettier
+    rev: v3.8.3
+    hooks:
+      - id: prettier
+        types_or: [javascript, jsx, ts, tsx, css, scss, json]

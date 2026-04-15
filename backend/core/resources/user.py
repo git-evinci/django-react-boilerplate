@@ -44,4 +44,3 @@ class UserResource(resources.ModelResource):
         )
         skip_unchanged = True
         report_skipped = True
-

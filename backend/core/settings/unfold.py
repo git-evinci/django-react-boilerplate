@@ -11,7 +11,7 @@ from django.utils.translation import gettext_lazy as _
 UNFOLD = {
     "SITE_HEADER": _("Admin Panel"),
     "SITE_TITLE": _("Game"),
-    #"SITE_URL": "/",
+    # "SITE_URL": "/",
     "SITE_ICON": {
         "light": lambda request: static("core/img/icons/icon-light.svg"),  # light mode
         "dark": lambda request: static("core/img/icons/icon-dark.svg"),  # dark mode
@@ -36,7 +36,7 @@ UNFOLD = {
     "SITE_SYMBOL": "settings",
     "SHOW_LANGUAGES": True,
     "SHOW_HISTORY": True,
-    #"THEME": "dark",
+    # "THEME": "dark",
     "ENVIRONMENT": "core.utils.environment_callback",
     "DASHBOARD_CALLBACK": "core.views.dashboard_callback",
     "LOGIN": {
@@ -201,7 +201,6 @@ UNFOLD = {
             "color": "#000000",
             "href": lambda request: static("core/img/icons/safari-pinned-tab.svg"),
         },
-
     ],
     "COLORS": {
         "font": {
@@ -339,7 +338,6 @@ UNFOLD = {
                     },
                 ],
             },
-
             {
                 "title": _("Sistema"),
                 "collapsible": True,
@@ -392,7 +390,6 @@ UNFOLD = {
                     },
                 ],
             },
-
         ],
     },
 }

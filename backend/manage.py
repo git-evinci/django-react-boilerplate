@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
+
 import os
 import sys
 
@@ -13,9 +14,7 @@ def main() -> None:
     environment = os.getenv("DJANGO_ENV", "development")
 
     if environment not in valid_environments:
-        msg = (
-            f"Invalid DJANGO_ENV: '{environment}'. Must be one of {valid_environments}."
-        )
+        msg = f"Invalid DJANGO_ENV: '{environment}'. Must be one of {valid_environments}."
         raise ValueError(msg)
 
     # Set the settings module dynamically

@@ -101,7 +101,7 @@ To avoid conflicts between Linux (Docker) and your Host OS, `node_modules` are m
 
 ### 1. Permission Denied (db.sqlite3)
 If Docker creates the DB file, it may be owned by `root`.
-**Fix:** 
+**Fix:**
 ```bash
 sudo chown -R $USER:$USER db/
 ```

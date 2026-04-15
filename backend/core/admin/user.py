@@ -1,5 +1,6 @@
 # core/admin/user.py
 """Admin configuration for user-related models such as User, EmailAddress, and UserProfile."""
+
 import logging
 from contextlib import suppress
 from typing import Any
@@ -39,9 +40,7 @@ logger = logging.getLogger("core")
 
 
 @admin.register(User, site=core_admin_site)
-class UserAdmin(
-    BaseUserAdmin, ModelAdmin, ImportExportModelAdmin, ImportExportActionModelAdmin
-):
+class UserAdmin(BaseUserAdmin, ModelAdmin, ImportExportModelAdmin, ImportExportActionModelAdmin):
     """Admin configuration for User model with import/export capabilities."""
 
     form = UserChangeForm
@@ -138,9 +137,7 @@ class EmailAddressAdmin(ModelAdmin):
 class GroupAdmin(BaseGroupAdmin, ModelAdmin):
     """Admin configuration for Group model."""
 
-    def changelist_view(
-        self, request: HttpRequest, extra_context: dict[str, Any] | None = None
-    ) -> TemplateResponse:
+    def changelist_view(self, request: HttpRequest, extra_context: dict[str, Any] | None = None) -> TemplateResponse:
         """Render the changelist view for the Group admin."""
         return super().changelist_view(request, extra_context=extra_context)
 
@@ -192,11 +189,7 @@ class UserProfileAdmin(ModelAdmin):
     @display(ordering="user__date_joined", description="Created On")
     def get_created_on(self, obj: UserProfile) -> str:
         """Retrieve the account creation date from the related User model."""
-        return (
-            obj.user.date_joined.strftime("%Y-%m-%d %H:%M:%S")
-            if obj.user.date_joined
-            else "Desconhecido"
-        )
+        return obj.user.date_joined.strftime("%Y-%m-%d %H:%M:%S") if obj.user.date_joined else "Desconhecido"
 
     @display(description="Avatar")
     def picture_display(self, obj: UserProfile) -> str:
@@ -209,6 +202,4 @@ class UserProfileAdmin(ModelAdmin):
                 picture_url,
             )
         except Exception:
-            return format_html(
-                '<span class="text-xs text-red-600 italic">No Image</span>'
-            )
+            return format_html('<span class="text-xs text-red-600 italic">No Image</span>')

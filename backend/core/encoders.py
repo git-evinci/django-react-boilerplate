@@ -18,6 +18,7 @@ class PrettyJSONEncoder(json.JSONEncoder):
         """Initialize the PrettyJSONEncoder.
 
         Args:
+        ----
             *args: Positional arguments passed to the superclass.
             indent (int): Indentation level for pretty-printing.
             sort_keys (bool): Whether to sort keys alphabetically.

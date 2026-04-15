@@ -1,5 +1,8 @@
 # core/forms/auth.py
 """Authentication forms configuration."""
+
+from typing import Any
+
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Fieldset, Layout
 from unfold.forms import AuthenticationForm
@@ -24,15 +27,24 @@ from unfold.widgets import (
 
 from django import forms
 from django.conf import settings
+from django.http import HttpRequest
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import RedirectView
 
 
 class HomeView(RedirectView):
+    """Redirect to admin index page."""
+
     pattern_name = "admin:index"
 
 
 class CustomFormMixin(forms.Form):
+    """Mixin class providing common form fields for custom forms.
+
+    This mixin includes fields for user information, preferences, and contact details,
+    styled using Unfold admin widgets.
+    """
+
     name = forms.CharField(
         max_length=100,
         label=_("Name"),
@@ -153,7 +165,14 @@ class CustomFormMixin(forms.Form):
 
 
 class CustomHorizontalForm(CustomFormMixin):
-    def __init__(self, *args, **kwargs):
+    """Horizontal layout form with all custom form fields.
+
+    This form extends CustomFormMixin and uses Crispy Forms to render
+    all fields in a horizontal layout with organized fieldsets.
+    """
+
+    def __init__(self, *args: any, **kwargs: any) -> None:
+        """Initialize the form with a horizontal layout and organized fieldsets."""
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_class = "form-horizontal"
@@ -177,10 +196,19 @@ class CustomHorizontalForm(CustomFormMixin):
             ),
         )
 
+
 class LoginForm(AuthenticationForm):
+    """Login form with optional pre-filled credentials from settings.
+
+    This form extends Django's AuthenticationForm and provides the ability
+    to pre-fill username and password fields from Django settings for convenience.
+    """
+
     password = forms.CharField(widget=forms.PasswordInput(render_value=True))
 
-    def __init__(self, request=None, *args, **kwargs):
+    # Use Optional[HttpRequest] to indicate it can be an HttpRequest or None
+    def __init__(self, request: HttpRequest | None = None, *args: Any, **kwargs: Any) -> None:
+        """Initialize the LoginForm with optional pre-filled credentials."""
         super().__init__(request, *args, **kwargs)
 
         if settings.LOGIN_USERNAME and settings.LOGIN_PASSWORD:

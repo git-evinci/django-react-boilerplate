@@ -5,7 +5,6 @@ These settings are shared across all environments (development, staging, product
 Environment-specific settings are located in their respective modules.
 """
 
-
 import logging
 import os
 from collections import OrderedDict
@@ -53,9 +52,7 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 10_000
 env_hosts = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1")
 ALLOWED_HOSTS = [host.strip() for host in env_hosts.split(",")]
 
-CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "http://localhost:8000").split(
-    ","
-)
+CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "http://localhost:8000").split(",")
 
 CSRF_FAILURE_VIEW = "django.views.csrf.csrf_failure"
 
@@ -65,14 +62,14 @@ CSRF_FAILURE_VIEW = "django.views.csrf.csrf_failure"
 INSTALLED_APPS = [
     "modeltranslation",
     "unfold",  # before django.contrib.admin
-    "unfold.contrib.filters", 
-    "unfold.contrib.forms",  
-    "unfold.contrib.inlines",  
-    "unfold.contrib.import_export", 
-    "unfold.contrib.guardian", 
-    "unfold.contrib.simple_history", 
-    "unfold.contrib.location_field",  
-    "unfold.contrib.constance", 
+    "unfold.contrib.filters",
+    "unfold.contrib.forms",
+    "unfold.contrib.inlines",
+    "unfold.contrib.import_export",
+    "unfold.contrib.guardian",
+    "unfold.contrib.simple_history",
+    "unfold.contrib.location_field",
+    "unfold.contrib.constance",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -81,7 +78,7 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     "django.contrib.staticfiles",
     "django_extensions",
-    #"debug_toolbar",
+    # "debug_toolbar",
     "crispy_forms",
     "allauth",
     "allauth.account",
@@ -98,7 +95,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders",
     "drf_spectacular",
-    "drf_spectacular_sidecar",  
+    "drf_spectacular_sidecar",
     "core",
 ]
 
@@ -111,7 +108,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",  # Must be directly below SecurityMiddleware
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "corsheaders.middleware.CorsMiddleware", # Place this as high as possible
+    "corsheaders.middleware.CorsMiddleware",  # Place this as high as possible
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -119,7 +116,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
     "simple_history.middleware.HistoryRequestMiddleware",
-    #"debug_toolbar.middleware.DebugToolbarMiddleware",
+    # "debug_toolbar.middleware.DebugToolbarMiddleware",
     "core.middleware.ReadonlyExceptionHandlerMiddleware",
 ]
 
@@ -177,8 +174,6 @@ TEMPLATES = [
 ]
 
 
-
-
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
@@ -206,25 +201,25 @@ AUTHENTICATION_BACKENDS = (
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME" : "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        "NAME" : "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        "NAME" : "django.contrib.auth.password_validation.CommonPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        "NAME" : "django.contrib.auth.password_validation.NumericPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
 
 LOGIN_USERNAME = os.getenv("LOGIN_USERNAME")
 LOGIN_PASSWORD = os.getenv("LOGIN_PASSWORD")
-#LOGIN_URL = "admin:login"
+# LOGIN_URL = "admin:login"
 
-#LOGIN_REDIRECT_URL = reverse_lazy("admin:index")
+# LOGIN_REDIRECT_URL = reverse_lazy("admin:index")
 
 # Guardian setting
 GUARDIAN_ANONYMOUS_USER_ID = None
@@ -242,23 +237,22 @@ ACCOUNT_SIGNUP_FIELDS = [
     "password1*",
     "password2*",
 ]
-ACCOUNT_EMAIL_VERIFICATION =  "none" # Change to 'mandatory' if needed
+ACCOUNT_EMAIL_VERIFICATION = "none"  # Change to 'mandatory' if needed
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
 ACCOUNT_UNIQUE_EMAIL = True
-#LOGIN_REDIRECT_URL = "/app"  # Redirect after login
-#LOGIN_URL = "/account/login/"
+# LOGIN_REDIRECT_URL = "/app"  # Redirect after login
+# LOGIN_URL = "/account/login/"
 ACCOUNT_LOGOUT_REDIRECT_URL = "/"  # Redirect after logout
-#ACCOUNT_LOGIN_VIEW_CLASS = "core.views.CustomLoginView"
+# ACCOUNT_LOGIN_VIEW_CLASS = "core.views.CustomLoginView"
 # Custom allauth adapter to control email subjects
 ACCOUNT_EMAIL_SUBJECT_PREFIX = None
-#ACCOUNT_EMAIL_SUBJECT_PREFIX (default: "[Site] ")
-#ACCOUNT_ADAPTER = "core.adapters.CustomAccountAdapter"
-
+# ACCOUNT_EMAIL_SUBJECT_PREFIX (default: "[Site] ")
+# ACCOUNT_ADAPTER = "core.adapters.CustomAccountAdapter"
 
 
 # SMTP Configure
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-#EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 DEFAULT_FROM_EMAIL = "evinci <no-reply@evinci.com.br>"
 SERVER_EMAIL = "server@evinci.com.br"
@@ -308,7 +302,7 @@ STATICFILES_DIRS = [
     STATIC_DIR,
     EXTRA_STATIC_DIR,
 ]
-
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Vite Integration
 VITE_DIST_DIR = BASE_DIR.parent / "frontend" / "dist"
@@ -327,12 +321,12 @@ STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
-    "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
-    },
     # "staticfiles": {
-    #     "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    #     "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     # },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
 }
 
 
@@ -341,7 +335,6 @@ STORAGES = {
 ######################################################################
 IMPORT_FORMATS = [CSV, XLSX]
 IMPORT_EXPORT_IMPORT_IGNORE_BLANK_LINES = True
-
 
 
 ############################################################################
@@ -387,7 +380,7 @@ if not DEBUG:
     DJANGO_VITE = {
         "default": {
             "dev_mode": False,
-            "manifest_path": ROOT_DIR / "frontend" / "dist" / "manifest.json",
+            "manifest_path": ROOT_DIR / "frontend" / "dist" / ".vite" / "manifest.json",
             "static_url_prefix": "vite/",  # or ""
         }
     }

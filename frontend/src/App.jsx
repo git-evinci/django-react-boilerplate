@@ -5,6 +5,6 @@ function App() {
         Django + Vite + Tailwind v4
       </h1>
     </div>
-  )
+  );
 }
-export default App
+export default App;

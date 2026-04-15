@@ -1,20 +1,21 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react' // Fixed the path here
-import tailwindcss from '@tailwindcss/vite'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react"; // Fixed the path here
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  plugins: [
-    react(),
-    tailwindcss(),
-  ],
+  plugins: [react(), tailwindcss()],
+  build: {
+    manifest: true, // This generates manifest.json in outDir
+    outDir: "dist",
+  },
   server: {
-    host: '0.0.0.0',
+    host: "0.0.0.0",
     port: 5173,
     strictPort: true,
     // Add CORS settings so Django can talk to Vite during dev
-    cors: true, 
+    cors: true,
     watch: {
       usePolling: true, // <-- Helpful for Windows/Mac Docker volumes
-    }
-  }
-})
+    },
+  },
+});

@@ -1,47 +1,53 @@
-# core/adapters.py - Enhanced version
+"""Core adapters module.
+
+This module provides custom account adapters for django-allauth,
+including CustomAccountAdapter to control signup behavior and email handling.
+"""
 
 import logging
 
 from allauth.account.adapter import DefaultAccountAdapter
 
 from django.conf import settings
+from django.http import HttpRequest
 
 logger = logging.getLogger("core")
 
+
 class CustomAccountAdapter(DefaultAccountAdapter):
     """Adapter to disable allauth new signups.
-    
+
     Used at equilang/settings.py with key ACCOUNT_ADAPTER
 
     https://django-allauth.readthedocs.io/en/latest/advanced.html#custom-redirects
     """
 
-    def is_open_for_signup(self, request):
+    def is_open_for_signup(self, request: HttpRequest) -> bool:
         """Check whether or not the site is open for signups.
 
         Next to simply returning True/False you can also intervene the
         regular flow by raising an ImmediateHttpResponse
         """
         return False
-    
+
     # def get_email_subject_prefix(self, context):
     #     """Completely disable the automatic [Site] prefix."""
     #     return ""
 
     # def render_mail(self, template_prefix, email, context, headers=None):
     #     msg = super().render_mail(template_prefix, email, context, headers)
-        
+
     #     # Force the subject via headers (some SMTP backends respect this)
     #     if headers is None:
     #         headers = {}
     #     headers["X-Subject"] = msg.subject  # Explicitly set the subject
     #     msg.extra_headers = headers
-        
+
     #     return msg
 
     # def render_mail(self, template_prefix, email, context, headers=None):
     #     """Complete email rendering override.
-        
+
     #     1. Doesn't add any automatic prefixes
     #     2. Uses the exact subject from the template
     #     3. Preserves all other email functionality
@@ -60,7 +66,7 @@ class CustomAccountAdapter(DefaultAccountAdapter):
     #         to=[email],
     #         headers=headers or {}
     #     )
-        
+
     #     # Add HTML version if available
     #     try:
     #         msg.attach_alternative(
@@ -98,7 +104,7 @@ class CustomAccountAdapter(DefaultAccountAdapter):
     #             for alt in msg.alternatives
     #         ],
     #     }
-    #     logger.debug("Complete email message:\n%s", 
+    #     logger.debug("Complete email message:\n%s",
     #     json.dumps(email_details, indent=2, ensure_ascii=False))
     #     # Log the complete email message
     #     logger.debug("Complete email message:\nSubject: %s\nFrom: %s\nTo: %s\nHeaders: %s\nBody: %s\nAttachments: %d",
@@ -110,9 +116,10 @@ class CustomAccountAdapter(DefaultAccountAdapter):
     #         len(msg.attachments))
     #     return msg
 
-    def get_from_email(self):
+    def get_from_email(self) -> str:
         """Ensure consistent from email address."""
         return settings.DEFAULT_FROM_EMAIL
+
 
 # class CustomAccountAdapter(DefaultAccountAdapter):
 

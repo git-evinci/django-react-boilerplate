@@ -26,12 +26,14 @@ class AdminImagePreviewWidget(ClearableFileInput):
         """Render the file input along with an optional image preview if a value (file) exists.
 
         Args:
+        ----
             name (str): The name of the field.
             value: The current value of the field (possibly a file).
             attrs (dict | None): HTML attributes for the input field.
             renderer: Renderer instance (required by Django >=2.1).
 
         Returns:
+        -------
             str: HTML string containing the input and the image preview (if any).
 
         """

@@ -1,4 +1,5 @@
 """API views for user management."""
+
 from rest_framework import viewsets
 
 from ..models.user import User  # Adjust path based on your exact tree

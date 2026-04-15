@@ -4,7 +4,8 @@
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.2/topics/http/urls/
 
-Examples:
+Examples
+--------
 Function views
     1. Add an import:  from my_app import views
     2. Add a URL to urlpatterns:  path('', views.home, name='home')
@@ -16,6 +17,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 
 """
+
 from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularRedocView,
@@ -26,7 +28,7 @@ from rest_framework.routers import DefaultRouter
 from django.conf import settings
 from django.conf.urls.static import static
 
-#from django.contrib import admin
+# from django.contrib import admin
 from django.urls import include, path
 
 from core.api.views import UserViewSet
@@ -39,31 +41,21 @@ handler404 = "core.views.custom_404"
 handler500 = "core.views.custom_500"
 
 urlpatterns = [
-    #path("admin/", admin.site.urls),
+    # path("admin/", admin.site.urls),
     path("i18n/", include("django.conf.urls.i18n")),
     path("accounts/", include("allauth.urls")),
     path("admin/", core_admin_site.urls),
     path("api/", include(router.urls)),
-    path("api-auth/", include("rest_framework.urls")), # For browsable API login
+    path("api-auth/", include("rest_framework.urls")),  # For browsable API login
     # Schema extraction
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
-    
     # Optional UI: Swagger
-    path(
-        "api/docs/", 
-        SpectacularSwaggerView.as_view(url_name="schema"), 
-        name="swagger-ui"
-    ),
-    
+    path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
     # Optional UI: Redoc
-    path(
-        "api/redoc/", 
-        SpectacularRedocView.as_view(url_name="schema"), 
-        name="redoc"
-    ),
+    path("api/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
 ]
 
 # Debug toolbar (development only)
 if settings.DEBUG:  # type: ignore[misc]
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # type: ignore[misc]
-   # urlpatterns += [path("__debug__/", include("debug_toolbar.urls"))]
+# urlpatterns += [path("__debug__/", include("debug_toolbar.urls"))]

@@ -4,6 +4,7 @@
 This module defines a `UserProfile` model to extend Django's built-in User model
 with additional fields such as a profile picture.
 """
+
 from typing import Self
 
 from simple_history.models import HistoricalRecords

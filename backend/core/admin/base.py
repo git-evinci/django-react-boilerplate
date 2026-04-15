@@ -3,6 +3,7 @@
 
 Includes custom functions for formatting.
 """
+
 import io
 import logging
 import unicodedata
@@ -23,6 +24,7 @@ __all__ = [
     "JustReadAdmin",
 ]
 logger = logging.getLogger("core")
+
 
 class CustomImportExportAdmin(ImportExportModelAdmin):
     """Custom ImportExportAdmin."""
@@ -60,21 +62,17 @@ class CustomImportExportAdmin(ImportExportModelAdmin):
 
             try:
                 # Read entire file content safely
-                file_content = import_file.read().decode(
-                    detected_encoding, errors="ignore"
-                )
+                file_content = import_file.read().decode(detected_encoding, errors="ignore")
             except UnicodeDecodeError as err:
                 logger.exception("Encoding conversion failed")
-                msg = (
-                    f"Failed to decode file with detected encoding: {detected_encoding}"
-                )
+                msg = f"Failed to decode file with detected encoding: {detected_encoding}"
                 raise ValueError(msg) from err
 
             # Normalize Unicode (using NFC to preserve correct characters)
             if detected_encoding == "utf-8":
                 normalized_content = file_content
                 logger.info("File encoding already UTF-8 — skipping normalization.")
-            else: 
+            else:
                 normalized_content = unicodedata.normalize("NFC", file_content)
                 logger.info("File normalized using NFC.")
 
@@ -97,7 +95,8 @@ class CustomImportExportAdmin(ImportExportModelAdmin):
 
         # Proceed with the default import action
         return super().import_action(request, **kwargs)
-    
+
+
 class JustReadAdmin(ModelAdmin):
     """Read-only admin class that disables add, change, and delete actions in the admin interface."""
 

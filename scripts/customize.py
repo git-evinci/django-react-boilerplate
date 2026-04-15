@@ -5,6 +5,7 @@ This module provides utilities to initialize and customize a Django-React boiler
 project with user-provided settings including project name, description, author details,
 and repository URL. It also generates a secure SECRET_KEY for Django configuration.
 """
+
 import re
 import secrets
 import string
@@ -22,17 +23,20 @@ ENV_PATH = BASE_DIR / ".env"
 DEFAULT_PROJECT_NAME = "django-react-boilerplate"
 DEFAULT_AUTHOR_NAME = "git-evinci"
 
+
 def get_input(prompt: str, default: str = "") -> str:
     """Prompt user for input with a fallback default."""
     prompt_text = f"{prompt} [{default}]: " if default else f"{prompt}: "
-    
+
     value = input(prompt_text).strip()
     return value if value else default
+
 
 def generate_secret_key() -> str:
     """Generate a cryptographically secure Django secret key."""
     chars = string.ascii_letters + string.digits + "!@#$%^&*(-_=+)"
     return "".join(secrets.choice(chars) for _ in range(50))
+
 
 def replace_in_file(filepath: Path, replacements: list[tuple[str, str]]) -> None:
     """Read a file, apply regex replacements, and write back."""
@@ -53,6 +57,7 @@ def replace_in_file(filepath: Path, replacements: list[tuple[str, str]]) -> None
         print(f"✅  Updated {filepath.name}")
     else:
         print(f"-  No changes needed in {filepath.name}")
+
 
 def main() -> None:
     """Initialize the Django-React boilerplate project with custom settings."""
@@ -77,14 +82,12 @@ def main() -> None:
     replace_in_file(PYPROJECT_PATH, pyproject_replacements)
 
     # 3. Update LICENSE
-    license_replacements = [
-        (rf"Copyright \(c\) \d{{4}} {DEFAULT_AUTHOR_NAME}", f"Copyright (c) 2026 {author_name}")
-    ]
+    license_replacements = [(rf"Copyright \(c\) \d{{4}} {DEFAULT_AUTHOR_NAME}", f"Copyright (c) 2026 {author_name}")]
     replace_in_file(LICENSE_PATH, license_replacements)
 
     # 4. Update README.md
     readme_replacements = [
-        (rf"#\s*{DEFAULT_PROJECT_NAME}", f'# {project_slug.replace("-", " ").title()}'),
+        (rf"#\s*{DEFAULT_PROJECT_NAME}", f"# {project_slug.replace('-', ' ').title()}"),
         (rf"https://github\.com/{DEFAULT_AUTHOR_NAME}/{DEFAULT_PROJECT_NAME}", repo_url),
     ]
     replace_in_file(README_PATH, readme_replacements)
@@ -93,15 +96,11 @@ def main() -> None:
     if ENV_EXAMPLE_PATH.exists() and not ENV_PATH.exists():
         with ENV_EXAMPLE_PATH.open("r", encoding="utf-8") as f:
             env_content = f.read()
-        
+
         # Inject new SECRET_KEY
         new_secret = generate_secret_key()
-        env_content = re.sub(
-            r"SECRET_KEY=.*", 
-            f"SECRET_KEY={new_secret}", 
-            env_content
-        )
-        
+        env_content = re.sub(r"SECRET_KEY=.*", f"SECRET_KEY={new_secret}", env_content)
+
         with ENV_PATH.open("w", encoding="utf-8") as f:
             f.write(env_content)
         print("✅  Created .env with fresh SECRET_KEY")
@@ -109,6 +108,7 @@ def main() -> None:
         print("-  .env already exists, skipping generation")
 
     print("\n🎉 Customization complete! You are ready to build.")
+
 
 if __name__ == "__main__":
     main()

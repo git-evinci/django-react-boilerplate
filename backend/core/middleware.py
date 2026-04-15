@@ -17,6 +17,7 @@ class ReadonlyExceptionHandlerMiddleware:
         """Initialize middleware.
 
         Args:
+        ----
             get_response: A callable that takes an HttpRequest and returns an HttpResponse.
 
         """
@@ -26,24 +27,26 @@ class ReadonlyExceptionHandlerMiddleware:
         """Process the request and return the response.
 
         Args:
+        ----
             request: The HTTP request.
 
         Returns:
+        -------
             The HTTP response from the next middleware or view.
 
         """
         return self.get_response(request)
 
-    def process_exception(
-        self, request: HttpRequest, exception: Exception
-    ) -> HttpResponse | None:
+    def process_exception(self, request: HttpRequest, exception: Exception) -> HttpResponse | None:
         """Handle specific exceptions like ReadonlyException.
 
         Args:
+        ----
             request: The HTTP request.
             exception: The exception raised during processing.
 
         Returns:
+        -------
             An HTTP redirect response or None if not handled.
 
         """
@@ -54,12 +57,8 @@ class ReadonlyExceptionHandlerMiddleware:
         ):
             messages.warning(
                 request,
-                _(
-                    "Database is operating in readonly mode. Not possible to save any data."
-                ),
+                _("Database is operating in readonly mode. Not possible to save any data."),
             )
-            return redirect(
-                request.META.get("HTTP_REFERER", reverse_lazy("admin:login"))
-            )
+            return redirect(request.META.get("HTTP_REFERER", reverse_lazy("admin:login")))
 
         return None

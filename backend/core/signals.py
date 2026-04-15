@@ -7,6 +7,7 @@ are created, updated, or deleted. Includes:
 - User profile synchronization
 - Database connection handlers
 """
+
 from contextlib import suppress
 from pathlib import Path
 from typing import Any
@@ -29,15 +30,11 @@ EMAIL_SYNC_LOCK = False
 
 User = get_user_model()
 
+
 @receiver(post_save, sender=User)
 def create_email_address(sender, instance, created: bool, **kwargs: Any) -> None:  # noqa: ANN001, ARG001
     """Populate the EmailAddress table with the User's email when the User is created."""
-    if (
-        created
-        and not EmailAddress.objects.filter(
-            user=instance, email=instance.email
-        ).exists()
-    ):
+    if created and not EmailAddress.objects.filter(user=instance, email=instance.email).exists():
         EmailAddress.objects.create(
             user=instance,
             email=instance.email,
@@ -65,6 +62,7 @@ def delete_profile_on_user_delete(sender, instance, **kwargs) -> None:  # noqa: 
     with suppress(UserProfile.DoesNotExist):
         instance.profile.delete()
 
+
 @receiver(post_delete, sender=UserProfile)
 def delete_profile_picture(sender, instance, **kwargs) -> None:  # noqa: ANN001, ANN003, ARG001
     """Delete the profile picture from storage when a UserProfile is deleted."""
@@ -83,9 +81,7 @@ def sync_email_with_email_address(sender, instance, **kwargs) -> None:  # noqa: 
         try:
             old_instance = User.objects.get(pk=instance.pk)  # type: ignore [attr-defined]
             if old_instance.email != instance.email:
-                email_address = EmailAddress.objects.filter(
-                    user=instance, primary=True
-                ).first()
+                email_address = EmailAddress.objects.filter(user=instance, primary=True).first()
                 if email_address and email_address.email != instance.email:
                     EMAIL_SYNC_LOCK = True  # Prevent recursion
                     email_address.email = instance.email
@@ -95,16 +91,17 @@ def sync_email_with_email_address(sender, instance, **kwargs) -> None:  # noqa: 
             pass  # Ignore new users
 
 
-
 def activate_foreign_keys(sender, connection: BaseDatabaseWrapper, **kwargs) -> None:  # noqa: ANN001, ANN003, ARG001
     """Enable SQLite foreign key constraints in production environments.
 
     Args:
+    ----
         sender: The signal sender class.
         connection: Database connection wrapper.
         **kwargs: Additional signal arguments.
 
     Note:
+    ----
         Only activates when DEBUG=False and using SQLite backend.
 
     """

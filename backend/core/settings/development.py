@@ -4,6 +4,7 @@
 Inherits from the base settings and extends or overrides specific settings
 to support development, such as enabling the debug toolbar.
 """
+
 from .base import *  # noqa: F403
 
 # Enable debugging

@@ -25,12 +25,14 @@ def model_picture_upload_path(
     """Generate a consistent upload path for model images.
 
     Args:
+    ----
         instance: The model instance.
         filename: The original uploaded filename.
         directory: Base directory to store images.
         field: Model field name to use for the filename (e.g., 'username', 'slug', 'id').
 
     Returns:
+    -------
         str: Path in the form '{directory}/{instance.id}/{filename_based_on_field.ext}'
 
     """
@@ -48,9 +50,7 @@ def model_picture_upload_path(
 def user_picture_upload_path(instance: models.Model, filename: str) -> str:
     """Generate upload path for a user's profile picture."""
     user = instance.user  # type: ignore[attr-defined]
-    return model_picture_upload_path(
-        user, filename, directory="img/avatars", field="username"
-    )
+    return model_picture_upload_path(user, filename, directory="img/avatars", field="username")
 
 
 class AuditedModel(models.Model):
@@ -70,9 +70,7 @@ class Tag(AuditedModel):
 
     title = models.CharField(_("title"), max_length=255)
     slug = models.CharField(_("slug"), max_length=255)
-    content_type = models.ForeignKey(
-        ContentType, on_delete=models.CASCADE, verbose_name=_("content type")
-    )
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, verbose_name=_("content type"))
     object_id = models.PositiveIntegerField(_("object id"))
     content_object = GenericForeignKey("content_type", "object_id")
 

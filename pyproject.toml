@@ -34,7 +34,9 @@ dependencies = [
     "drf-spectacular (>=0.29.0,<0.30.0)",
     "drf-spectacular-sidecar (>=2026.4.1,<2027.0.0)",
     "gunicorn (>=25.3.0,<26.0.0)",
+    "psycopg2-binary (>=2.9.11,<3.0.0)",
     "python-dotenv (>=1.2.2,<2.0.0)",
+    "redis (>=7.4.0,<8.0.0)",
     "sentry-sdk (>=2.58.0,<3.0.0)",
     "whitenoise (>=6.12.0,<7.0.0)"
 ]
@@ -53,7 +55,8 @@ dev = [
     "django-stubs-ext (>=6.0.2,<7.0.0)",
     "django-types (>=0.23.0,<0.24.0)",
     "pygments (>=2.20.0,<3.0.0)",
-    "pillow (>=12.2.0,<13.0.0)"
+    "pillow (>=12.2.0,<13.0.0)",
+    "pre-commit (>=4.5.1,<5.0.0)"
 ]
 
 [build-system]
@@ -61,7 +64,7 @@ requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
-# Disables package installation mode so Poetry works solely as a 
+# Disables package installation mode so Poetry works solely as a
 # dependency manager for your Django web application.
 package-mode = false
 
@@ -119,79 +122,79 @@ select = [
     # "ANN001", # Missing type annotation for function argument {name}
     # "ANN002", # Missing type annotation for *{name}
     # "ANN003", # Missing type annotation for **{name}
-    # "ANN201", # Missing return type annotation for public function {name}	
+    # "ANN201", # Missing return type annotation for public function {name}
     # "ANN202", # Missing return type annotation for private function {name}
     # "ANN204", # Missing return type annotation for special method {name}
     # "ANN205", # Missing return type annotation for staticmethod {name}
     # "ANN206", # Missing return type annotation for classmethod {name}
     # "ANN401", # Dynamically typed expressions (typing.Any) are disallowed in {name}
     "ARG",  # Argument/parameter related issues
-    
+
     # Bug prevention
     "B",    # Builtin misuse and potential bugs
-    
+
     # Code complexity & style
     "C4",   # Comprehensions improvements
     "C90",  # McCabe cyclomatic complexity
-    
+
     # Documentation
     "D",    # Docstring conventions
-    
+
     # Django-specific rules
     "DJ",   # Django best practices
-    
+
     # Datetime & timezone safety
     "DTZ",  # Requires timezone-aware datetimes
-    
+
     # Error handling
     "E",    # Syntax errors, indentation, etc.
     "EM",   # Exception handling improvements
-    
+
     # Formatting & style (originally from pyflakes)
     "F",    # Pyflakes rules
-    
+
     # Global variables
     "G",    # Global statement misuse
-    
+
     # Import sorting
     "I",    # Unsorted/ungrouped imports
-    
+
     # Implicit string concatenation
     "ISC",  # Detects potentially dangerous implicit string concat
-    
+
     # Logging
     "LOG",  # Logging format issues
-    
+
     # Naming conventions
     "N",    # PEP 8 naming violations
-    
+
     # Flake8-pie rules
     "PIE",  # Python improvement recommendations
-    
+
     # Python typing
     "PT",   # Type-related checks
-    
+
     # Path handling
     "PTH",  # os.path vs Pathlib recommendations
-    
+
     # Return statements
     "RET",  # Return consistency checks
-    
+
     # Ruff-specific rules
     "RUF",  # Additional Ruff-specific checks
-    
+
     # Quote consistency
     "Q",    # Single vs double quotes
-    
+
     # Simplification
     "SIM",  # Code that can be simplified
-    
+
     # TensorFlow-specific (if used)
     "T10",  # TensorFlow best practices
-    
+
     # Try-except handling
     "TRY",  # Try-except improvements
-    
+
     # Unicode & string handling
     "UP",   # Unicode normalization checks
 ]

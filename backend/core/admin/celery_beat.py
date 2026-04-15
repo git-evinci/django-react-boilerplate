@@ -3,6 +3,7 @@
 
 Includes custom functions for formatting fields.
 """
+
 from django_celery_beat.admin import ClockedScheduleAdmin as BaseClockedScheduleAdmin
 from django_celery_beat.admin import CrontabScheduleAdmin as BaseCrontabScheduleAdmin
 from django_celery_beat.admin import PeriodicTaskAdmin as BasePeriodicTaskAdmin
@@ -30,12 +31,22 @@ admin.site.unregister(CrontabSchedule)
 admin.site.unregister(SolarSchedule)
 admin.site.unregister(ClockedSchedule)
 
+
 class UnfoldTaskSelectWidget(UnfoldAdminSelectWidget, TaskSelectWidget):
-    pass
+    """Custom task select widget combining Unfold and Celery Beat functionality."""
 
 
 class UnfoldPeriodicTaskForm(PeriodicTaskForm):
-    def __init__(self, *args, **kwargs):
+    """Custom periodic task form with Unfold widget integration."""
+
+    def __init__(self, *args: tuple, **kwargs: dict) -> None:
+        """Initialize the form with Unfold widgets for task and regtask fields.
+
+        Args:
+            *args: Variable length argument list.
+            **kwargs: Arbitrary keyword arguments.
+
+        """
         super().__init__(*args, **kwargs)
         self.fields["task"].widget = UnfoldAdminTextInputWidget()
         self.fields["regtask"].widget = UnfoldTaskSelectWidget()
@@ -43,24 +54,26 @@ class UnfoldPeriodicTaskForm(PeriodicTaskForm):
 
 @admin.register(PeriodicTask, site=core_admin_site)
 class PeriodicTaskAdmin(BasePeriodicTaskAdmin, ModelAdmin):
+    """Admin interface for PeriodicTask model with Unfold widget integration."""
+
     form = UnfoldPeriodicTaskForm
 
 
 @admin.register(IntervalSchedule, site=core_admin_site)
 class IntervalScheduleAdmin(ModelAdmin):
-    pass
+    """Admin interface for IntervalSchedule model."""
 
 
 @admin.register(CrontabSchedule, site=core_admin_site)
 class CrontabScheduleAdmin(BaseCrontabScheduleAdmin, ModelAdmin):
-    pass
+    """Admin interface for CrontabSchedule model."""
 
 
 @admin.register(SolarSchedule, site=core_admin_site)
 class SolarScheduleAdmin(ModelAdmin):
-    pass
+    """Admin interface for SolarSchedule model."""
 
 
 @admin.register(ClockedSchedule, site=core_admin_site)
 class ClockedScheduleAdmin(BaseClockedScheduleAdmin, ModelAdmin):
-    pass
+    """Admin interface for ClockedSchedule model."""

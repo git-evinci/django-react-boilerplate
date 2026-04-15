@@ -33,7 +33,7 @@ A professional, opinionated boilerplate designed to jumpstart web applications. 
 ### Backend (Django)
 * **Framework:** [Django 6.x](https://www.djangoproject.com/)
 * **API:** [Django REST Framework (DRF)](https://www.django-rest-framework.org/) & [drf-spectacular](https://drf-spectacular.readthedocs.io/)
-* **Package Manager:** [Poetry 2.3+](https://python-poetry.org/) 
+* **Package Manager:** [Poetry 2.3+](https://python-poetry.org/)
 * **Admin UI:** [Django Unfold](https://github.com/unfoldadmin/django-unfold) (Modern Tailwind-based Admin)
 * **Async Tasks:** Celery + Celery Beat
 * **Testing:** Pytest
@@ -64,7 +64,7 @@ A professional, opinionated boilerplate designed to jumpstart web applications. 
 ├── docs/                   # Documentation directory
 │   └── README.md           # The main project documentation
 ├── frontend/               # Vite + React Project
-│   ├── src/                
+│   ├── src/
 │   │   ├── index.css       # Tailwind v4 @import
 │   │   └── App.jsx
 │   └── vite.config.js      # Vite & Tailwind plugin config

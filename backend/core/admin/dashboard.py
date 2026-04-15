@@ -13,7 +13,15 @@ from django.utils.timezone import now, timedelta
 
 
 @lru_cache
-def tracker_random_data():
+def tracker_random_data() -> list:
+    """Generate random tracker data for display.
+
+    Returns
+    -------
+    list
+        A list of dictionaries with color and tooltip values.
+
+    """
     data = []
 
     for _i in range(1, 64):
@@ -38,20 +46,42 @@ def tracker_random_data():
 
 @register_component
 class TrackerComponent(BaseComponent):
-    def get_context_data(self, **kwargs):
+    """Component for displaying tracker data with random values.
+
+    Renders a tracker visualization with randomly generated data including
+    color coding and tooltips for each data point.
+    """
+
+    def get_context_data(self, **kwargs: dict) -> dict:
+        """Get context data for the tracker component.
+
+        Returns
+        -------
+        dict
+            Context dictionary containing tracker data.
+
+        """
         context = super().get_context_data(**kwargs)
         context["data"] = tracker_random_data()
         return context
 
+
 @lru_cache
-def cohort_random_data():
+def cohort_random_data() -> dict:
+    """Generate random cohort analysis data for display.
+
+    Returns
+    -------
+    dict
+        A dictionary containing headers and rows with cohort data including
+        values, colors, and subtitles for each cell.
+
+    """
     rows = []
     headers = []
     cols = []
 
-    dates = reversed(
-        [(now() - timedelta(days=x)).strftime("%B %d, %Y") for x in range(8)]
-    )
+    dates = reversed([(now() - timedelta(days=x)).strftime("%B %d, %Y") for x in range(8)])
     groups = range(1, 10)
 
     for row_index, date in enumerate(dates):
@@ -62,9 +92,7 @@ def cohort_random_data():
             col_classes = []
 
             if color_index > 0:
-                col_classes.append(
-                    f"bg-primary-{color_index}00 dark:bg-primary-{9 - color_index}00"
-                )
+                col_classes.append(f"bg-primary-{color_index}00 dark:bg-primary-{9 - color_index}00")
 
             if color_index >= 4:
                 col_classes.append("text-white")
@@ -119,7 +147,21 @@ def cohort_random_data():
 
 @register_component
 class CohortComponent(BaseComponent):
-    def get_context_data(self, **kwargs):
+    """Component for displaying cohort analysis data.
+
+    Renders a cohort analysis table with randomly generated data including
+    color coding, values, and subtitles for each cell.
+    """
+
+    def get_context_data(self, **kwargs: dict) -> dict:
+        """Get context data for the cohort component.
+
+        Returns
+        -------
+        dict
+            Context dictionary containing cohort analysis data.
+
+        """
         context = super().get_context_data(**kwargs)
         context["data"] = cohort_random_data()
         return context
