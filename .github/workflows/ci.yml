@@ -6,20 +6,18 @@ on:
   pull_request:
     branches: [ "main" ]
 
-# Silence the GitHub Actions deprecation warning
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
-
 jobs:
   backend-lint-and-test:
     name: Backend (Django & Code Quality)
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        # Bumped to v5
+        uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        # Bumped to v6 (or latest available)
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -27,7 +25,8 @@ jobs:
         run: pip install pre-commit
 
       - name: Set up Pre-commit Cache
-        uses: actions/cache@v4
+        # Bumped to v5
+        uses: actions/cache@v5
         with:
           path: ~/.cache/pre-commit
           key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
@@ -38,12 +37,12 @@ jobs:
       - name: Install Poetry
         uses: snok/install-poetry@v1
         with:
-          version: 2.3.4
+          version: 2.3.1
           virtualenvs-create: true
           virtualenvs-in-project: true
 
       - name: Set up Poetry Cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: .venv
           key: venv-${{ runner.os }}-${{ hashFiles('poetry.lock') }}
@@ -62,12 +61,13 @@ jobs:
         working-directory: ./frontend
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        # Bumped to v5 (or v6)
+        uses: actions/setup-node@v5
         with:
-          node-version: "22" # Updated to match your local Node v22!
+          node-version: "22"
           cache: "npm"
           cache-dependency-path: "./frontend/package-lock.json"
 
