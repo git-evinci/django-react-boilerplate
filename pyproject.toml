@@ -344,3 +344,13 @@ cmd = "python ./backend/manage.py shell_plus"
 [tool.poe.tasks.schema]
 help = "Export OpenAPI schema to file."
 cmd = "python ./backend/manage.py spectacular --file schema.yml"
+
+[tool.pytest.ini_options]
+# Tell pytest where your Django settings are
+DJANGO_SETTINGS_MODULE = "core.settings.development"
+# Add the backend folder to the Python path so it can find the 'core' module
+pythonpath = [".", "backend"]
+# Define test file naming conventions
+python_files = ["test_*.py", "*_test.py"]
+# Tell pytest which directories to scan for tests
+testpaths = ["tests"]

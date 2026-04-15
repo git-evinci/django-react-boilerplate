@@ -1,5 +1,5 @@
 # core/views.py
-"""Views and utilities for RoatanMahogany application."""
+"""Views and utilities for Django boilerplate application."""
 
 import json
 import logging
